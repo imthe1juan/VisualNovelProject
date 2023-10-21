@@ -38,7 +38,9 @@ public class GameManager : MonoBehaviour
     //Check After Conversation
     public void CheckPhase()
     {
-        if(interoggationCurrentCount <= 0)
+        Debug.Log("Check");
+        BlackOverlay.Instance.SetFade(false);
+        if (interoggationCurrentCount <= 0)
         {
             InitializePhase();
         }
