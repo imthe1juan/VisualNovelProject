@@ -12,4 +12,9 @@ public class GameUI : MonoBehaviour
         interrogationText.text = $"Interrogation: {interoggationCurrentCount}";
         phaseText.text = phaseName;
     }
+    public void UpdateText(string text, string phaseName)
+    {
+        interrogationText.text = $"{text}";
+        phaseText.text = phaseName;
+    }
 }

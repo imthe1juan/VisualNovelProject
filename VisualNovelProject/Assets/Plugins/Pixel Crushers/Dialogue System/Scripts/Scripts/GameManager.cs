@@ -6,11 +6,17 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    GameUI gameUI;
+
+    [SerializeField] BlackOverlay blackOverlay;
+    [SerializeField] GameObject[] gameParts;
+
     public int phase;
     public int interoggationCount;
     int interoggationCurrentCount;
-    public List<string> phaseName = new List<string>{"Night","Midnight","Dawn", "Morning"};
+
+    public List<string> phaseName = new List<string>{"Night","Midnight","Dawn", "Morning", "Accusation"};
+    PhaseTransitionUI phaseTransitionUI;
+    GameUI gameUI;
     void Awake()
     {
         if(Instance == null)
@@ -21,7 +27,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+
+        phaseTransitionUI = FindObjectOfType<PhaseTransitionUI>();
         gameUI = GetComponent<GameUI>();
     }
     void Start()
@@ -39,17 +46,35 @@ public class GameManager : MonoBehaviour
     public void CheckPhase()
     {
         Debug.Log("Check");
-        BlackOverlay.Instance.SetFade(false);
-        if (interoggationCurrentCount <= 0)
+        blackOverlay.SetFade(false, 1);
+
+        if (interoggationCurrentCount <= 0) //phaseName.Count - 1
         {
             InitializePhase();
+            phaseTransitionUI.InitiateTransition();
         }
     }
-    void InitializePhase()
+    public void InitializePhase()
     {
         phase++;
-        interoggationCurrentCount = interoggationCount;
-        gameUI.UpdateText(interoggationCurrentCount, phaseName[phase]);
-    }
+        if(phase >= 4)//phaseName.Count -1
+        {
+            gameParts[0].SetActive(false);
+            gameParts[1].SetActive(true);
 
+            blackOverlay.SetFade(true, 1);
+
+            gameUI.UpdateText("ACCUSE SOMEONE!", phaseName[phase]);
+        }
+        else
+        {
+            interoggationCurrentCount = interoggationCount;
+            gameUI.UpdateText(interoggationCurrentCount, phaseName[phase]);
+        }
+
+    }
+    public string GetCurrentPhase()
+    {
+        return phaseName[phase];
+    }
 }

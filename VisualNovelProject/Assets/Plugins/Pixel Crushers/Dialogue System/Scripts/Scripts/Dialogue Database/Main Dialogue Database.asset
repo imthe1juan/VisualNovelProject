@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 935899b62f48ae5498594680ed17d133, type: 3}
-  m_Name: Start Dialogue Database
+  m_Name: Main Dialogue Database
   m_EditorClassIdentifier: 
   version: 1
   author: Kerberos
@@ -1087,8 +1087,8 @@ MonoBehaviour:
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 0, y: 0}
-    canvasZoom: 1
+    canvasScrollPosition: {x: 89.404205, y: 0}
+    canvasZoom: 1.0000004
   - id: 4
     fields:
     - title: Title

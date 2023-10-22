@@ -3,8 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using PixelCrushers.DialogueSystem;
 using UnityEngine.UI;
-public class Suspect : MonoBehaviour
+using UnityEngine.EventSystems;
+
+public class Suspect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    [SerializeField] Image roomImage;
+    [SerializeField] Sprite hoverImage;
+    [SerializeField] Sprite normalImage;
+
+
+    ConversationChecker conversationChecker;
+    [SerializeField] BlackOverlay blackOverlay;
     public Orientation orientation;
     public enum Orientation{
         Gardener, Artist, Pianist, Housekeeper
@@ -12,17 +21,31 @@ public class Suspect : MonoBehaviour
 
     [SerializeField] int suspectID;
     [SerializeField] int conversationid;
-    public List<string> suspectNameList = new List<string> { "Gardener", "Artist", "Pianist", "Housekeeper" };
     Button button;
     void Awake()
     {
-        button = GetComponent<Button>();
-        button.onClick.AddListener(Interrogate);
+        conversationChecker = FindObjectOfType<ConversationChecker>();
+        //button = GetComponent<Button>();
+        //button.onClick.AddListener(Interrogate);
     }
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        roomImage.sprite = hoverImage;
+        gameObject.transform.localScale += new Vector3(.1f, .1f, .1f);
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        roomImage.sprite = normalImage;
+        gameObject.transform.localScale -= new Vector3(.1f, .1f, .1f);
 
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        //Are you sure
+    }
     void Interrogate()
     {
-        BlackOverlay.Instance.SetFade(true);
+        blackOverlay.SetFade(true, 1f);
         StartCoroutine(InterrogateCoroutine());
     }
     IEnumerator InterrogateCoroutine()
@@ -33,18 +56,21 @@ public class Suspect : MonoBehaviour
         switch (orientation) 
         {
             case Orientation.Gardener:
+                conversationChecker.CheckGardenerConversation();
                 DialogueManager.StartConversation($"{Orientation.Gardener}{conversationid}", transform, transform);
-
                 break;
             case Orientation.Artist:
+                conversationChecker.CheckArtistConversation();
                 DialogueManager.StartConversation($"{Orientation.Artist}{conversationid}", transform, transform);
 
                 break;
             case Orientation.Pianist:
+                conversationChecker.CheckPianistConversation();
                 DialogueManager.StartConversation($"{Orientation.Pianist}{conversationid}", transform, transform);
 
                 break;
             case Orientation.Housekeeper:
+                conversationChecker.CheckHousekeeperConversation();
                 DialogueManager.StartConversation($"{Orientation.Housekeeper}{conversationid}", transform, transform);
 
                 break;

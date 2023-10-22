@@ -5,30 +5,15 @@ using UnityEngine.UI;
 
 public class BlackOverlay : MonoBehaviour
 {
-    public static BlackOverlay Instance;
-
     bool fadeIn = false;
     [SerializeField] Image background; // Reference to the UI Image component
     public float fadeDuration = 1.5f; // Duration of the fade effect
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-    private void Start()
-    {
-
-    }
-    public void SetFade(bool boolean)
+    public void SetFade(bool boolean, float fadeDuration = 1.5f)
     {
         background.enabled = true;
         fadeIn = boolean;
+        this.fadeDuration = fadeDuration;
+
         if (fadeIn) 
         {
             StartCoroutine(FadeIn());
@@ -70,6 +55,7 @@ public class BlackOverlay : MonoBehaviour
             yield return null;
         }
 
+        background.color = new Color(0, 0, 0, 0f);
         background.enabled = false;
     }
 
