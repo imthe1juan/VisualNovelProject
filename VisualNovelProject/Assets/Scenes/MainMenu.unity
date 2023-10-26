@@ -2606,7 +2606,7 @@ MonoBehaviour:
   onClickSFX: {fileID: 1656332601}
   Fade: {fileID: 1104562107}
   Blocked: {fileID: 2091848061}
-  sceneNum: 0
+  sceneNum: 1
 --- !u!114 &1656332597
 MonoBehaviour:
   m_ObjectHideFlags: 0

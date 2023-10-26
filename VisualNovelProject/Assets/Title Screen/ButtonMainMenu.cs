@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -46,6 +47,7 @@ public class ButtonMainMenu : MonoBehaviour , IPointerEnterHandler, IPointerExit
     {
         yield return new WaitForSeconds(5f);
         SceneManager.LoadScene(sceneNum);
+        Fade.SetActive(false);
     }
 
 }
