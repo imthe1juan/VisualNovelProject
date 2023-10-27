@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class ButtonMainMenu : MonoBehaviour , IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    MusicPlayer musicPlayer;
     public GameObject HoverPanel;
     public AudioSource SoundFX;
     public AudioSource onClickSFX;
@@ -20,16 +21,16 @@ public class ButtonMainMenu : MonoBehaviour , IPointerEnterHandler, IPointerExit
     void Start()
     {
         anim = Fade.GetComponent<Animator>();
-        
+        musicPlayer = FindObjectOfType<MusicPlayer>();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         onClickSFX.Play();
-        anim.Play("FadeAnim");
-        StartCoroutine(FadeOut());
+        musicPlayer.FadeOut(1);
+        anim.SetBool("Fade", true);
         Blocked.SetActive(true);
-
+        StartCoroutine(LoadNextScene());
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -42,12 +43,15 @@ public class ButtonMainMenu : MonoBehaviour , IPointerEnterHandler, IPointerExit
     {
         HoverPanel.SetActive(false);
     }
-
+    /*
     IEnumerator FadeOut()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(sceneNum);
-        Fade.SetActive(false);
+    }*/
+    IEnumerator LoadNextScene() 
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(sceneNum);
     }
-
 }
